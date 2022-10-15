@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "basic_intigr",
+    "slug": "basic_intigr",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
