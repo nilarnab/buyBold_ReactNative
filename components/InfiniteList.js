@@ -13,9 +13,9 @@ const InfiniteList = () => {
      * Fetch the products via the API, then update the products state
      */
     const getProducts = () => {
-        fetch(`https://api.escuelajs.co/api/v1/products?offset=${pagination}&limit=3`)
+        fetch(`https://desolate-gorge-42271.herokuapp.com/products/infiniteScroll/${pagination}`)
             .then(res => res.json())
-            .then(data => setProducts([...products, ...data]));
+            .then(data => setProducts([...products, ...data.query]));
     };
 
     /**
@@ -42,8 +42,7 @@ const InfiniteList = () => {
             data={products}
             renderItem={ProductView}
             initialNumToRender={5}
-            // TODO: Change to use the item id when integrating with the real api
-            keyExtractor={item => Math.random()}
+            keyExtractor={item => item._id}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItems}
             onEndReachedThreshold={1}
