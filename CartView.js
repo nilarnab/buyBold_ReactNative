@@ -1,61 +1,98 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList } from 'react-native';
+import React, { useState, useEffect, useReducer} from 'react';
+import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList, Button } from 'react-native';
+import Config from 'react-native-config'
 
 const userId = "630dc78ee20ed11eea7fb99f"
 
-
+const BASE_URL = 'https://desolate-gorge-42271.herokuapp.com/'
   
   
 export const CartView = (prop) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const fetchCart = async () => {
     var userId = prop['userProfile']
-    console.log(userId)
-
-  const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/show_items?user_id=${userId}`, {method: 'POST'})
-  var data_raw = await resp.json();
-  const data = data_raw["response"]["cart_items"]
-  setData(data);
-  setLoading(false);
   
- 
-
+    const resp = await fetch(BASE_URL +`handleCartOps/show_items?user_id=${userId}`, {method: 'POST'})
+    var data_raw = await resp.json();
+    console.log("raw data")
+    console.log(data_raw['response'])
+    const data = data_raw["response"]["cart_items"]
+    setData(data);
+    setLoading(false); 
   }
 
 
-  const addItem = async ({cart_id}) => {
-    const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${cart_id}`, {method: 'POST'})
+  // const addItem = async ({cart_id}) => {
+  //   console.log(cart_id)
+  //   // const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${cart_id}&qnt_new=${qnt_new + 1}`, {method: 'POST'})
+  //   // console.log("response")
+  //   // console.log(resp.json())
+  // }
+
+
+  const updateScreen = () => {
+    forceUpdate();
   }
 
-  const Item = ({ prop}) => {
-    console.log(prop)
-    return (
-    <View >
-      <View style={styles.cart_item}>
-        <Text style={styles.title}>{prop.name}</Text>
-        <Text style={styles.title}>{prop.description}</Text>
-        <Text style={styles.title}>{prop._id.toString}</Text>
-      </View>
-    </View>
-  )};
+
   
-    
-
-    
-
 
     const renderItem = ({ item }) => {
       console.log("prerender condition")
       console.log(item)
-
+      
+      var cart_id = Object.keys(item)[0]
       var product_id = item[Object.keys(item)[0]]._id.toString()
       var product_name = item[Object.keys(item)[0]].name
       var product_description = item[Object.keys(item)[0]].description
+      var prod_qnt = item[Object.keys(item)[1]]
+      
+      var prod_data = {}
+      prod_data['prod_id'] = product_id
+      prod_data['prod_name'] = product_name
+      prod_data['prod_description'] = product_description
+      prod_data['prod_qnt'] = prod_qnt
+      prod_data['cart_id'] = cart_id
       return (
-      <Item prop={item[Object.keys(item)[0]]} />
+      <Item prop={prod_data} />
+    )};
+
+    const Item = ({ prop}) => {
+      console.log(prop)
+      return (
+      <View >
+        <View style={styles.cart_item}>
+          <Text style={styles.title}>Name: {prop.prod_name}</Text>
+          <Text style={styles.title}>Description: {prop.prod_description}</Text>
+          <Text style={styles.title}>Quantity: {prop.prod_qnt}</Text>
+          <Text style={styles.title}>Quantity: {prop.prod_id}</Text>
+          <Button onPress={ async () => 
+          {
+            const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${prop.cart_id}&qnt_new=${prop.prod_qnt + 1}`, {method: 'POST'})
+            console.log("response")
+            console.log(resp.json())
+  
+            fetchCart()
+            setLoading(true)
+
+          }} prop={prop} title='+' />
+
+<Button onPress={ async () => 
+          {
+            const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${prop.cart_id}&qnt_new=${prop.prod_qnt - 1}`, {method: 'POST'})
+            console.log("response")
+            console.log(resp.json())
+  
+            fetchCart()
+            setLoading(true)
+
+          }} prop={prop} title='-' />
+        </View>
+      </View>
     )};
 
     useEffect(() => {
