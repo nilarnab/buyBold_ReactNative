@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useReducer} from 'react';
-import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList, Button } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList, Button } from 'react-native';
 import Config from 'react-native-config'
 
 const userId = "630dc78ee20ed11eea7fb99f"
@@ -12,6 +12,13 @@ export const CartView = (prop) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    setInterval(() => {
+        setVisible(!visible);
+      }, 2000);
+  }, []);
 
   const fetchCart = async () => {
     var userId = prop['userProfile']
@@ -62,6 +69,7 @@ export const CartView = (prop) => {
     )};
 
     const Item = ({ prop}) => {
+
       console.log(prop)
       return (
       <View >
@@ -72,23 +80,23 @@ export const CartView = (prop) => {
           <Text style={styles.title}>Quantity: {prop.prod_id}</Text>
           <Button onPress={ async () => 
           {
+            setLoading(true)
             const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${prop.cart_id}&qnt_new=${prop.prod_qnt + 1}`, {method: 'POST'})
             console.log("response")
             console.log(resp.json())
   
             fetchCart()
-            setLoading(true)
 
           }} prop={prop} title='+' />
 
-<Button onPress={ async () => 
+        <Button onPress={ async () => 
           {
+            setLoading(true)
             const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${prop.cart_id}&qnt_new=${prop.prod_qnt - 1}`, {method: 'POST'})
             console.log("response")
             console.log(resp.json())
   
             fetchCart()
-            setLoading(true)
 
           }} prop={prop} title='-' />
         </View>
@@ -104,7 +112,7 @@ export const CartView = (prop) => {
     return (
           
             <SafeAreaView style={styles.outer_container}>
-              {loading && <Text>Loading..</Text>}
+              {loading && <ActivityIndicator size="small" color="#0000ff" />}
               <Text>The following shows your cart items</Text>
               <View style={styles.container}>
                 <FlatList
