@@ -16,7 +16,6 @@ function MainPage() {
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Cart" children={() => <CartView userProfile={userId} />} />
         </Tab.Navigator>
-        // </NavigationContainer>
     );
 }
 
