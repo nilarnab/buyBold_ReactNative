@@ -3,6 +3,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import InfiniteList from "./components/InfiniteList";
 // import { Router, Scene } from 'react-native-router-flux'
 
 /* <Router>
@@ -26,7 +27,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
             <View>
-            <Text>Home Screen component View</Text>
+            <InfiniteList />
             <StatusBar style="auto" />
             
             </View>
