@@ -16,7 +16,10 @@ public class MainActivity extends ReactActivity {
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
-    super.onCreate(null);
+    super.onCreate(savedInstanceState);
+
+    // Retrieve the content view that renders the map.
+    setContentView(R.layout.activity_maps);
   }
 
   /**

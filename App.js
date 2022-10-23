@@ -1,28 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList } from 'react-native';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {HomeScreen} from './HomeScreen'
-import {CartView} from './CartView' 
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+import PhoneNumber from './screens/PhoneNumber';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HomeScreen } from './HomeScreen';
+import VerifyCode from './screens/VerifyCode'
+import Map from './screens/Map';
+import MainPage from './screens/MainPage';
+const Stack = createNativeStackNavigator();
 
+const App = () => {
 
-AppRegistry.registerComponent('Appname', () => App);
-
-const userId = "630dc78ee20ed11eea7fb99f"
-
-
-const Tab = createBottomTabNavigator()
-
-export default function App() {
-
-  
-  return (
+  return <>
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen}/>
-        <Tab.Screen name="Cart" children={()=><CartView userProfile={userId}/>}/>
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+      <Stack.Navigator>
+        <Stack.Screen name="Map" component={Map} options={{ title: 'Address' }} />
+        <Stack.Screen name="Phone" component={PhoneNumber} />
+        <Stack.Screen name="Verify" component={VerifyCode} />
+        <Stack.Screen name="Main" component={MainPage} />
+      </Stack.Navigator>
+    </NavigationContainer></>
 }
+
+export default App;

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
-
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+//mps
+import com.airbnb.android.react.maps.MapsPackage;  
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHostWrapper(
@@ -36,8 +38,11 @@ public class MainApplication extends Application implements ReactApplication {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
-      // packages.add(new MyReactNativePackage());
-      packages.add(new ReactNativeConfigPackage())
+      // packages.add(new MainReactPackage());
+      // packages.add(new ReactNativeConfigPackage())
+      // packages.add(new ReactNativeFirebaseAppPackage())
+      packages.add(new MapsPackage())  
+
       return packages;
     }
 
@@ -106,4 +111,37 @@ public class MainApplication extends Application implements ReactApplication {
       }
     }
   }
+  @Override
+public void onRequestPermissionsResult(int requestCode,
+                                       @NonNull String[] permissions,
+                                       @NonNull int[] grantResults) {
+    locationPermissionGranted = false;
+    if (requestCode
+        == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        }
+    } else {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    updateLocationUI();
 }
+  private void getLocationPermission() {
+    /*
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
+    if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+        locationPermissionGranted = true;
+    } else {
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    }
+}
+}
+
