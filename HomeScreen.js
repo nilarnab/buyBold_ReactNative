@@ -3,17 +3,42 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { Router, Scene } from 'react-native-router-flux'
+
+/* <Router>
+      <Scene key = "root">
+         <Scene key = "home" component = {Home} title = "Home" initial = {true} />
+         <Scene key = "locVer" component = {LocVer} title = "Locatio Verification" />
+      </Scene>
+   </Router> */
+
+// const Routes = () => (
+//     <Router>
+//        <Scene key = "root">
+//           <Scene key = "home" component = {Home} title = "Home" initial = {true} />
+//           <Scene key = "about" component = {About} title = "About" />
+//        </Scene>
+//     </Router>
+//  )
+
+const Home = () => {
+
+  return (
+    <SafeAreaView style={styles.container}>
+            <View>
+            <Text>Home Screen component View</Text>
+            <StatusBar style="auto" />
+            
+            </View>
+    </SafeAreaView>
+  )
+}
+
 
 export const HomeScreen = () => {
 
     return (
-          <SafeAreaView style={styles.container}>
-            <View>
-            <Text>Home Screen View</Text>
-            <StatusBar style="auto" />
-            
-            </View>
-        </SafeAreaView>
+          Home()
         )
     
       }
