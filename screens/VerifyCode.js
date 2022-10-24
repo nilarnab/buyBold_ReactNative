@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function OTP(props) {
+
     const [code, setCode] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('----')
+    const [verdict, setVerdict] = useState('type OTP')
+
+    const fetchPhone = async () => {
+        console.log('trying to fetch phone number')
+        var keyRaw = 'phoneNumber'
+        var key = await keyRaw.toString()
+        var data = await AsyncStorage.getItem(key)
+
+        console.log(data)
+        setPhoneNumber(data)
+    
+      }
+
+    useEffect(() => {
+        fetchPhone()
+      }, []);
 
     return (
         <View style={styles.screen}>
@@ -14,7 +34,27 @@ export default function OTP(props) {
                 keyboardType="numeric"
                 style={styles.input}
             />
-            <Button title="Confirm OTP" onPress={() => { }} />
+            <Text>{verdict}</Text>
+            <Button title="Confirm OTP" onPress={async () => {
+                
+                setVerdict("Judging OTP")
+
+                const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/verify_otp?phone_num=+91${phoneNumber}&pin=${code}`, {method: 'GET'})
+                var resp = await resp_raw.json()
+                console.log("response")
+                console.log(resp)
+
+                if (resp['verdict'] == 1)
+                {
+                    setVerdict('OTP Correct')
+                }
+                else
+                {
+                    setVerdict(resp['message'])
+                }
+
+
+            }} />
         </View>
     );
 }
