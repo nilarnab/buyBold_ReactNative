@@ -33,14 +33,6 @@ export const CartView = (prop) => {
   }
 
 
-  // const addItem = async ({cart_id}) => {
-  //   console.log(cart_id)
-  //   // const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/handleCartOps/alter?cart_id=${cart_id}&qnt_new=${qnt_new + 1}`, {method: 'POST'})
-  //   // console.log("response")
-  //   // console.log(resp.json())
-  // }
-
-
   const updateScreen = () => {
     forceUpdate();
   }

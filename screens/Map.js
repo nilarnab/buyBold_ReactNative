@@ -65,7 +65,7 @@ import * as Location from 'expo-location';
 //     }
 // }
 
-export const Map = () => {
+export const Map = (props) => {
 
     const [state, setState] = useState(
         {
@@ -109,7 +109,7 @@ export const Map = () => {
     return (
 
         
-                        
+        <>              
         <Animated
             style={styles.mapStyle}
             showsUserLocation={true}
@@ -122,7 +122,12 @@ export const Map = () => {
             title={"JavaTpoint"}  
             description={"Java Training Institute"}  
           />
-          </Animated>  
+          
+          </Animated> 
+          <View style={styles.screen}>
+                <Button title="Confirm" style={{}} onPress={() => { props.navigation.navigate('Phone') }} />
+            </View> 
+          </>
 
         //             <MapView
         //                 style={styles.mapStyle}
@@ -158,6 +163,7 @@ export const Map = () => {
         //             </View>
         
         //         </>
+        
     )
 }
 
