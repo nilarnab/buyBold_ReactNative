@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
-import MapView  from 'react-native-maps';
-import { Marker, AnimatedRegion, Animated} from 'react-native-maps';
+import React, { useState, useEffect } from 'react'
+import MapView from 'react-native-maps';
+import { Marker, AnimatedRegion, Animated } from 'react-native-maps';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import * as Location from 'expo-location';
 
@@ -23,8 +23,8 @@ import * as Location from 'expo-location';
 //     }
 //     render(props) {
 
-        
-        
+
+
 //         return (<>
 
 //             <MapView
@@ -70,14 +70,16 @@ export const Map = (props) => {
     const [state, setState] = useState(
         {
             latitude: 20.91250253532257,
-            longitude: 10.79602722078562,  
-            latitudeDelta: 9.22,  
-            longitudeDelta: 4.21, 
+            longitude: 10.79602722078562,
+            latitudeDelta: 9.22,
+            longitudeDelta: 4.21,
         }
     );
     const [location, setLocation] = useState({
-        coords: {latitude: 20.91250253532257,
-        longitude: 10.79602722078562}
+        coords: {
+            latitude: 20.91250253532257,
+            longitude: 10.79602722078562
+        }
     });
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -86,48 +88,56 @@ export const Map = (props) => {
 
     useEffect(() => {
         (async () => {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
-            return;
-        }
 
-        let location = await Location.getCurrentPositionAsync({});
-        let state = {
-            lattitude: location.coords.latitude,
-            longitude: 10.79602722078562,  
-            latitudeDelta: 9.22,  
-            longitudeDelta: 4.21, 
-        };
-        setState(state);
-        setLocation(location)
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            let state = {
+                lattitude: location.coords.latitude,
+                longitude: 10.79602722078562,
+                latitudeDelta: 9.22,
+                longitudeDelta: 4.21,
+            };
+            setState(state);
+            setLocation(location)
         })();
     }, []);
-    
+
 
     return (
+        <>
+            <Animated
+                style={styles.mapStyle}
+                showsUserLocation={true}
+                zoomEnabled={true}
+                zoomControlEnabled={true}
+                onPress={(e) => {
+                    let coordinates = e.nativeEvent.coordinate;
+                    setLocation({
+                        coords: {
+                            latitude: coordinates.latitude,
+                            longitude: coordinates.longitude
+                        }
+                    })
 
-        
-        <>              
-        <Animated
-            style={styles.mapStyle}
-            showsUserLocation={true}
-            zoomEnabled={true}
-            zoomControlEnabled={true}
-            initialRegion={state}
+                }}
+                initialRegion={state}
             >
-            <Marker  
-            coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}  
-            title={"JavaTpoint"}  
-            description={"Java Training Institute"}  
-          />
-          
-          </Animated> 
-          <View style={styles.screen}>
+                <Marker
+                    coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
+                    title={"JavaTpoint"}
+                    description={"Java Training Institute"}
+                />
+
+            </Animated>
+            <View style={styles.screen}>
                 <Button title="Confirm" style={{}} onPress={() => { props.navigation.navigate('Phone') }} />
-            </View> 
-          </>
+            </View>
+        </>
 
         //             <MapView
         //                 style={styles.mapStyle}
@@ -147,10 +157,10 @@ export const Map = (props) => {
         //                             longitudeDelta: 0.0421,
         //                         }
         //                     })
-        
+
         //                 }}
         //             >
-        
+
         //                 <Marker
         //                     coordinate={{ latitude: this.state.region.latitude, longitude: this.state.region.longitude }}
         //                     title={"Address"}
@@ -161,9 +171,9 @@ export const Map = (props) => {
         //             <View style={styles.screen}>
         //                 <Button title="Confirm" style={{}} onPress={() => { this.props.navigation.navigate('Phone') }} />
         //             </View>
-        
+
         //         </>
-        
+
     )
 }
 
