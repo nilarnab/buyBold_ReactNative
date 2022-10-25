@@ -17,12 +17,12 @@ export default function OTP(props) {
 
         console.log(data)
         setPhoneNumber(data)
-    
-      }
+
+    }
 
     useEffect(() => {
         fetchPhone()
-      }, []);
+    }, []);
 
     return (
         <View style={styles.screen}>
@@ -36,20 +36,19 @@ export default function OTP(props) {
             />
             <Text>{verdict}</Text>
             <Button title="Confirm OTP" onPress={async () => {
-                
+
                 setVerdict("Judging OTP")
 
-                const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/verify_otp?phone_num=+91${phoneNumber}&pin=${code}`, {method: 'GET'})
+                const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/verify_otp?phone_num=+91${phoneNumber}&pin=${code}`, { method: 'GET' })
                 var resp = await resp_raw.json()
                 console.log("response")
                 console.log(resp)
 
-                if (resp['verdict'] == 1)
-                {
+                if (resp['verdict'] == 1) {
                     setVerdict('OTP Correct')
+                    props.navigation.navigate("Main")
                 }
-                else
-                {
+                else {
                     setVerdict(resp['message'])
                 }
 

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, AppRegistry, FlatList, TextInput, Button } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import InfiniteList from "./components/InfiniteList";
@@ -23,14 +23,29 @@ import InfiniteList from "./components/InfiniteList";
 //  )
 
 const Home = () => {
+  const [searchText, setSearchText] = useState("");
+  const [products, setProducts] = useState([])
 
   return (
     <SafeAreaView style={styles.container}>
-            <View>
-            <InfiniteList />
-            <StatusBar style="auto" />
-            
-            </View>
+      <View style={styles.screen}>
+        <TextInput style={styles.input}
+          editable
+          maxLength={40}
+          value={searchText}
+          onChange={(e) => { setSearchText(e.nativeEvent.text); }}
+          placeholder="Start Typing to search ..."
+        />
+        <Button title='Search' onPress={async () => {
+          console.log(searchText);
+          const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/searchItem?text=${searchText}`, { method: 'GET' })
+          const response = result.json()
+          setProducts(response);
+          console.log(response);
+        }}></Button>
+      </View>
+      <InfiniteList list={products} />
+      <StatusBar style="auto" />
     </SafeAreaView>
   )
 }
@@ -38,21 +53,39 @@ const Home = () => {
 
 export const HomeScreen = () => {
 
-    return (
-          Home()
-        )
-    
-      }
+  return (
+    Home()
+  )
+
+}
 
 const styles = StyleSheet.create({
-    container: {
-          flex: 1,
-          backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-      
-        navigation: {
-          backgroundColor: 'tomato'
-        }
-      });
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0
+  },
+  screen: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 10
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: 'lightblue',
+    margin: 20,
+    fontSize: 15,
+    width: 250,
+    padding: 4,
+    borderRadius: 8,
+  },
+
+  navigation: {
+    backgroundColor: 'tomato'
+  }
+});

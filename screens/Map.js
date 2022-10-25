@@ -129,8 +129,8 @@ export const Map = (props) => {
             >
                 <Marker
                     coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
-                    title={"JavaTpoint"}
-                    description={"Java Training Institute"}
+                    title={"Address"}
+                    description={"Your delivery address"}
                 />
 
             </Animated>

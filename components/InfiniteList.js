@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from "react-native";
 import ProductView from "./ProductView";
 
-const InfiniteList = () => {
+const InfiniteList = (props) => {
     const [products, setProducts] = useState([]);
     const [refreshing, isRefreshing] = useState(false);
     const [pagination, setPagination] = useState(0);

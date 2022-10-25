@@ -6,11 +6,12 @@ import { MMKV } from 'react-native-mmkv';
 // import KeyValueStorage from "react-native-key-value-storage"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default  function PhoneNumber(props) {
+export default function PhoneNumber(props) {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const requestOtp = async (phoneNumberUser) => {
-        const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/reset_otp?phone_num=+91${phoneNumber}`, {method: 'GET'})
+        console.log(phoneNumberUser);
+        const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/reset_otp?phone_num=+91${phoneNumberUser}`, { method: 'GET' })
         var resp = resp_raw.json()
         console.log("response")
         console.log(resp)
@@ -20,8 +21,8 @@ export default  function PhoneNumber(props) {
         console.log("sending request")
         await requestOtp(phoneNumber)
     }
-    
-   return (
+
+    return (
         <View style={styles.screen}>
             <Text style={styles.text}>Enter Phone Number</Text>
             <TextInput
@@ -31,24 +32,23 @@ export default  function PhoneNumber(props) {
                 onChangeText={setPhoneNumber}
                 placeholder="10 digit Mobile Number"
             />
-            <Button title="LogIn" onPress={async () => { 
-                if (phoneNumber.length == 10) 
-                    { 
+            <Button title="LogIn" onPress={async () => {
+                if (phoneNumber.length == 10) {
 
-                        handleButton();
-                        
-                        var keyRaw = 'phoneNumber'
-                        var key = await keyRaw.toString()
+                    handleButton();
 
-                        await AsyncStorage.setItem(key, phoneNumber)
-                        console.log("complete")
-                        
-                        props.navigation.navigate('Verify') 
-                } 
-                else { alert(phoneNumber + "is not a valid number") } 
-                }} />
+                    var keyRaw = 'phoneNumber'
+                    var key = await keyRaw.toString()
+
+                    await AsyncStorage.setItem(key, phoneNumber)
+                    console.log("complete")
+
+                    props.navigation.navigate('Verify')
+                }
+                else { alert(phoneNumber + "is not a valid number") }
+            }} />
             <Text style={{ color: "red", marginTop: 100 }}></Text>
-            <Button title="Skip Login" style={{ marginTop: 10 }} onPress={() => {props.navigation.navigate('Main') }} />
+            <Button title="Skip Login" style={{ marginTop: 10 }} onPress={() => { props.navigation.navigate('Main') }} />
 
         </View>
     );
