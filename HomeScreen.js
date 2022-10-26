@@ -27,7 +27,8 @@ const Home = () => {
   const [products, setProducts] = useState([])
 
   return (
-    <SafeAreaView style={styles.container}>
+    // <SafeAreaView style={styles.container}>
+    <>
       <View style={styles.screen}>
         <TextInput style={styles.input}
           editable
@@ -38,15 +39,16 @@ const Home = () => {
         />
         <Button title='Search' onPress={async () => {
           console.log(searchText);
-          const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/searchItem?text=${searchText}`, { method: 'GET' })
-          const response = result.json()
+          const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/searchItem?text=${searchText}`, { method: 'GET' })
+          const response = (await result.json()).mydata;
           setProducts(response);
-          console.log(response);
+          // console.log(products, "res");
         }}></Button>
       </View>
       <InfiniteList list={products} />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </>
+    // </SafeAreaView>
   )
 }
 

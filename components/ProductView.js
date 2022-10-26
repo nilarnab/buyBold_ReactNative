@@ -25,19 +25,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 16,
         borderBottomWidth: 1,
-        borderColor: "#ddd",
+        borderColor: "#ddd"
     },
     itemImageStyle: {
         width: '100%',
         aspectRatio: 1,
-        marginVertical: 16,
-        borderRadius: 25,
+        // marginVertical: 16,
+        // borderRadius: 25,
     },
     contentWrapperStyle: {
-        alignItems : "flex-start",
+        // alignItems: "flex-start",
     },
     txtNameStyle: {
-        fontSize: 16,
+        // fontSize: 16,
     }
 });
 
