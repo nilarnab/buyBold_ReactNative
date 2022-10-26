@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from "react-native";
+import { View, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import ProductView from "./ProductView";
 
 const InfiniteList = (props) => {
@@ -45,7 +45,8 @@ const InfiniteList = (props) => {
             data={products}
             renderItem={ProductView}
             initialNumToRender={1}
-            keyExtractor={item => item._id}
+            // TODO: Fix in production
+            keyExtractor={item => Math.random()}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItems}
             onEndReachedThreshold={1}
