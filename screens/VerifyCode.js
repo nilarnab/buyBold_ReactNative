@@ -57,7 +57,7 @@ export default function OTP(props) {
                 if (resp['verdict'] == 1)
                 {
                     setVerdict('OTP Correct')
-                    // validatephone();
+                    validatephone();
                     // props.navigation.navigate('Dash')
 
                 
