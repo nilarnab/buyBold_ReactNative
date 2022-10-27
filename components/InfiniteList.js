@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { View, FlatList, StyleSheet, ActivityIndicator, RefreshControl, Text, ScrollView } from "react-native";
+
 import ProductView from "./ProductView";
 
 const InfiniteList = (props) => {
@@ -61,6 +63,20 @@ const InfiniteList = (props) => {
     // // refreshing={refreshing}
     // // onRefresh={resetList}
     // />
+    return (
+        <FlatList
+            data={products}
+            renderItem={ProductView}
+            initialNumToRender={1}
+            // TODO: Fix in production
+            keyExtractor={item => Math.random()}
+            ListFooterComponent={renderLoader}
+            onEndReached={loadMoreItems}
+            onEndReachedThreshold={1}
+            refreshing={refreshing}
+            onRefresh={resetList}
+        />
+    );
 
 };
 

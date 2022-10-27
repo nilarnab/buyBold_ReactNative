@@ -63,12 +63,7 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0
   },
   screen: {
     justifyContent: 'center',
