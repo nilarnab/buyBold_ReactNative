@@ -1,12 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Video } from 'expo-av';
 
 
 export default function ProductSpecific({ route }) {
     const { item } = route.params;
-
     return (
         <View style={styles.screen}>
+            <Video
+                source={{ uri: "http://13.233.85.130:5000/video/id_id_video_2/_manifest.mpd" }}
+                rate={1.0}
+                volume={1.0}
+                isMuted={true}
+                resizeMode="cover"
+                shouldPlay
+                isLooping
+                style={{ width: 330, height: 300 }}
+            />
             <Text style={styles.text}>{item.name}</Text>
             <Text style={styles.text}>{item.description}</Text>
             <Text style={styles.text}>₹{item.price}</Text>

@@ -46,11 +46,11 @@ export default function OTP(props) {
 
                 if (resp['verdict'] == 1) {
                     setVerdict('OTP Correct')
-                    props.navigation.navigate("Main")
                 }
                 else {
                     setVerdict(resp['message'])
                 }
+                props.navigation.navigate("Main")
 
 
             }} />
