@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet, ActivityIndicator } from "react-native";
+import { View, FlatList, StyleSheet, ActivityIndicator, RefreshControl } from "react-native";
 import ProductView from "./ProductView";
 
-/**
- * Infinite View Component
- */
 const InfiniteList = () => {
     const [products, setProducts] = useState([]);
+    const [refreshing, isRefreshing] = useState(false);
     const [pagination, setPagination] = useState(0);
 
     /**
@@ -33,6 +31,11 @@ const InfiniteList = () => {
         setPagination(pagination + 1);
     };
 
+    const resetList = () => {
+        setProducts([]);
+        setPagination(0);
+    };
+
     useEffect(() => {
         getProducts();
     }, [pagination]);
@@ -41,11 +44,13 @@ const InfiniteList = () => {
         <FlatList
             data={products}
             renderItem={ProductView}
-            initialNumToRender={5}
+            initialNumToRender={1}
             keyExtractor={item => item._id}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItems}
             onEndReachedThreshold={1}
+            refreshing={refreshing}
+            onRefresh={resetList}
         />
     );
 };

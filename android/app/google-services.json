@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "174641407132",
+    "project_id": "buybold-223e1",
+    "storage_bucket": "buybold-223e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174641407132:android:20e0519237641b9e2fb959",
+        "android_client_info": {
+          "package_name": "com.basicintigr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174641407132-86j834quram6ld9tbm1aft0p6q3bh12n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi6PzsYbnnwSWdp3ig9yyWe6En6IC8kLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174641407132-86j834quram6ld9tbm1aft0p6q3bh12n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
