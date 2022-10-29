@@ -19,9 +19,9 @@ const App = () => {
   return <>
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
+        <Stack.Screen name="Phone" component={PhoneNumber} />
         <Stack.Screen name="Main" component={MainPage} />
         <Stack.Screen name="Map" component={Map} options={{ title: 'Address' }} />
-        <Stack.Screen name="Phone" component={PhoneNumber} />
         <Stack.Screen name="Verify" component={VerifyCode} />
         <Stack.Screen name="ProductSpecific" component={ProductSpecific} />
       </Stack.Navigator>

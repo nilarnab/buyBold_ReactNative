@@ -8,7 +8,7 @@ export default function ProductSpecific({ route }) {
     return (
         <View style={styles.screen}>
             <Video
-                source={{ uri: "http://13.233.85.130:5000/video/id_id_video_2/_manifest.mpd" }}
+                source={{ uri: "http://43.205.195.106:5000/video/id_video_2/_manifest.mpd" }}
                 rate={1.0}
                 volume={1.0}
                 isMuted={true}
