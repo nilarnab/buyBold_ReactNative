@@ -24,13 +24,13 @@ export default function PhoneNumber(props) {
     }
 
     return (
-        <View style={styles.screen}>
+        // <View style={styles.screen}>
 
-            <Button title={"LogIn"} onPress={() => {
-                Linking.openURL('http://43.205.195.106:3000')
-            }}></Button>
-        </View>
-        // <WebView source={{ uri: 'http://13.233.85.130:3000' }}></WebView>
+        //     <Button title={"LogIn"} onPress={() => {
+        //         Linking.openURL('http://43.205.195.106:3000')
+        //     }}></Button>
+        // </View>
+        <WebView source={{ uri: 'http://43.205.195.106:3000' }}></WebView>
         // <View style={styles.screen}>
         //     <Text style={styles.text}>Enter Phone Number</Text>
         //     <TextInput
