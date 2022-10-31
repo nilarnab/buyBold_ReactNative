@@ -9,7 +9,7 @@ import { WebView } from 'react-native-webview'
 
 export default function PhoneNumber(props) {
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [authToken, setAuthToken] = useState = (null);
+    const [authToken, setAuthToken] = useState(null);
     const [authentication, setAuthentication] = useState(1);
 
     // const requestOtp = async (phoneNumberUser) => {
@@ -22,14 +22,14 @@ export default function PhoneNumber(props) {
 
     const handleAuth = async () => {
         console.log("waiting for auth");
-        const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/phone_num=+91${phoneNumber}`, { method: 'GET' })
+        const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify?phone_num=+91${phoneNumber}`, { method: 'GET' })
         var resp = await resp_raw.json()
         setAuthToken(resp.token)
         setAuthentication(2)
         // await requestOtp(phoneNumber)
-        const resp = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/waitAuth?token=${authToken}`, { method: 'GET' })
-        var resp = await resp.json()
-        if (resp.verdict) {
+        const resp2 = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/waitAuth?token=${resp.token}`, { method: 'GET' })
+        var response = await resp2.json()
+        if (response.verdict) {
             setAuthentication(3)
         }
         else {
