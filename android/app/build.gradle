@@ -299,7 +299,7 @@ dependencies {
     implementation project(':react-native-config') // from react native config 
 
     //
-    implementation platform('com.google.firebase:firebase-bom:26.6.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics'
     implementation "androidx.browser:browser:1.2.0
     

@@ -1,10 +1,10 @@
 package com.basicintigr;
 
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
-import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -40,7 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MainReactPackage());
       // packages.add(new ReactNativeConfigPackage())
-      // packages.add(new ReactNativeFirebaseAppPackage())
+      packages.add(new ReactNativeFirebaseAppPackage())
       packages.add(new MapsPackage())  
 
       return packages;
