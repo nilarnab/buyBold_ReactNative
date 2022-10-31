@@ -37,7 +37,7 @@ export default function PhoneNumber(props) {
         }
     }
     if (authentication == 2)
-        return <WebView source={{ uri: `http://192.168.166.176:3000/register?token=${authToken}&phone=${phoneNumber}` }}></WebView>
+        return <WebView source={{ uri: `http://www.buybold.ml/register?token=${authToken}&phone=${phoneNumber}` }}></WebView>
     else if (authentication == 1)
         return <View style={styles.screen}>
             <Text style={styles.text}>Enter Phone Number</Text>
