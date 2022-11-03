@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
-import { navigate } from "../RootNavigator"
+import { navigate } from "../RootNavigator";
 
 /**
  * Product View Component
