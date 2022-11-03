@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Video } from 'expo-av';
 import { ActivityIndicator, Button } from 'react-native-paper';
+import { navigate } from "../RootNavigator";
 
 function DashVideo() {
     return (
@@ -91,6 +92,12 @@ function AddToCartButton({ productID }) {
 
 export default function ProductSpecific({ route }) {
     const { item } = route.params;
+    const makepay=()=>{
+    
+        navigate("Pay", { item });
+       
+    
+    }
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ backgroundColor: "#d1e0e0" }}>
@@ -105,6 +112,9 @@ export default function ProductSpecific({ route }) {
                         <Text style={styles.text}>₹{item.price}</Text>
                     </View>
                     <Text style={styles.description}>{item.description}</Text>
+                    <Button icon="cart" mode="contained" style={{ backgroundColor: "blue" }} onPress={makepay}>
+                Buy Now
+            </Button>
                 </View>
             </ScrollView>
             <View style={styles.footer}>

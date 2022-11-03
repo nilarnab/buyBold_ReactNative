@@ -9,6 +9,7 @@ import VerifyCode from './screens/VerifyCode'
 import Map from './screens/Map';
 import MainPage from './screens/MainPage';
 import ProductSpecific from './screens/ProductSpecific';
+import Payment from './payment';
 
 import { navigationRef } from './RootNavigator';
 
@@ -24,6 +25,7 @@ const App = () => {
         <Stack.Screen name="Map" component={Map} options={{ title: 'Address' }} />
         <Stack.Screen name="Verify" component={VerifyCode} />
         <Stack.Screen name="ProductSpecific" component={ProductSpecific} />
+        <Stack.Screen name="Pay" component={Payment} />
       </Stack.Navigator>
     </NavigationContainer></>
 }
