@@ -15,7 +15,7 @@ export default function PhoneNumber(props) {
     //     console.log(resp)
     // }
 
-    const handleAuth = async () => {
+    const handleAuth = async (props) => {
         console.log("waiting for auth");
         const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify?phone_num=+91${phoneNumber}`, { method: 'GET' })
         var resp = await resp_raw.json()
@@ -29,7 +29,8 @@ export default function PhoneNumber(props) {
         console.log("response 2")
         console.log(response)
         if (response.verdict) {
-            setAuthentication(3)
+            // setAuthentication(3)
+            props.navigation.navigate('Main')
         }
         else {
             setAuthentication(1)
@@ -50,7 +51,7 @@ export default function PhoneNumber(props) {
             <Button title="LogIn" onPress={async () => {
                 if (phoneNumber.length == 10) {
 
-                    await handleAuth();
+                    await handleAuth(props);
                 }
                 else { alert(phoneNumber + "is not a valid number") }
             }} />
