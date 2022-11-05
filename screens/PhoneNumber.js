@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Linking } from 'react-native';
-import { State } from 'react-native-gesture-handler';
-import * as Keychain from 'react-native-keychain';
-import { MMKV } from 'react-native-mmkv';
-// import KeyValueStorage from "react-native-key-value-storage"
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview'
 
 export default function PhoneNumber(props) {
@@ -24,11 +19,15 @@ export default function PhoneNumber(props) {
         console.log("waiting for auth");
         const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify?phone_num=+91${phoneNumber}`, { method: 'GET' })
         var resp = await resp_raw.json()
+        console.log("response 1")
+        console.log(resp)
         setAuthToken(resp.token)
         setAuthentication(2)
         // await requestOtp(phoneNumber)
         const resp2 = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/waitAuth?token=${resp.token}`, { method: 'GET' })
         var response = await resp2.json()
+        console.log("response 2")
+        console.log(response)
         if (response.verdict) {
             setAuthentication(3)
         }

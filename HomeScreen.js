@@ -42,7 +42,7 @@ const Home = () => {
           const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/searchItem?text=${searchText}`, { method: 'GET' })
           const response = (await result.json()).mydata;
           setProducts(response);
-          // console.log(products, "res");
+          console.log(products);
         }}></Button>
       </View>
       <InfiniteList list={products} />
