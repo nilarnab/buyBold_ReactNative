@@ -39,10 +39,10 @@ const Home = () => {
         />
         <Button title='Search' onPress={async () => {
           console.log(searchText);
-          const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/searchItem?text=${searchText}`, { method: 'GET' })
-          const response = (await result.json()).mydata;
+          const result = await fetch(`https://desolate-gorge-42271.herokuapp.com/search/query?query=${searchText}`, { method: 'POST' })
+          const response = (await result.json()).data;
           setProducts(response);
-          console.log(products);
+          console.log(response);
         }}></Button>
       </View>
       <InfiniteList list={products} />
