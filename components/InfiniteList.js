@@ -5,42 +5,54 @@ import { View, FlatList, StyleSheet, ActivityIndicator, RefreshControl, Text, Sc
 import ProductView from "./ProductView";
 
 const InfiniteList = (props) => {
-    // console.log(props.list)
-    // const [refreshing, isRefreshing] = useState(false);
-    // const [pagination, setPagination] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [refreshing,] = useState(false);
+    const [pagination, setPagination] = useState(0);
+    const [finished, setFinished] = useState(false);
 
     /**
      * Fetch the products via the API, then update the products state
      */
-    // const getProducts = () => {
-    //     fetch(`https://desolate-gorge-42271.herokuapp.com/products/infiniteScroll/${pagination}`)
-    //         .then(res => res.json())
-    //         .then(data => setProducts([...products, ...data.query]));
-    // };
+    const getProducts = () => {
+        fetch(`https://desolate-gorge-42271.herokuapp.com/products/infiniteScroll/${pagination}`)
+            .then(res => res.json())
+            .then(({ query }) => {
+                if (query.length === 0)
+                    setFinished(true);
+                else
+                    setProducts([...products, ...query])
+            });
+    };
 
     /**
-     * A wrapper for the loader visible at the bottom of the infinite list
-    //  */
-    // const renderLoader = () => {
-    //     return (
-    //         <View style={styles.loaderStyle}>
-    //             <ActivityIndicator size="large" color="#aaa" />
-    //         </View>
-    //     );
-    // };
+     * The compoenent visible at the bottom of the infinite list
+     */
+    const renderFooter = () => {
+        return (
+            <View style={styles.loaderStyle}>
+                {finished ?
+                    <Text>Finished infinite list</Text>
+                    :
+                    <ActivityIndicator size="large" color="#aaa" />
+                }
+            </View>
+        );
+    };
 
-    // const loadMoreItems = () => {
-    //     setPagination(pagination + 1);
-    // };
+    const loadMoreItems = () => {
+        setPagination(pagination + 1);
+    };
 
-    // const resetList = () => {
-    //     setProducts([]);
-    //     setPagination(0);
-    // };
+    const resetList = () => {
+        setProducts([]);
+        setFinished(false);
+        setPagination(0);
+    };
 
-    // useEffect(() => {
-    //     getProducts();
-    // }, [pagination]);
+    useEffect(() => {
+        getProducts();
+    }, [pagination]);
+    
     const renderItems = (arr) => {
         return <ScrollView style={{}}>
             {
@@ -50,33 +62,24 @@ const InfiniteList = (props) => {
             }
         </ScrollView>
     }
-    return renderItems(props.list)
 
-    // <FlatList
-    //     data={props.list}
-    //     renderItem={ProductView}
-    //     initialNumToRender={10}
-    //     keyExtractor={item => item._id}
-    // // ListFooterComponent={renderLoader}
-    // // onEndReached={loadMoreItems}
-    // // onEndReachedThreshold={1}
-    // // refreshing={refreshing}
-    // // onRefresh={resetList}
-    // />
-    return (
-        <FlatList
-            data={products}
-            renderItem={ProductView}
-            initialNumToRender={1}
-            // TODO: Fix in production
-            keyExtractor={item => Math.random()}
-            ListFooterComponent={renderLoader}
-            onEndReached={loadMoreItems}
-            onEndReachedThreshold={1}
-            refreshing={refreshing}
-            onRefresh={resetList}
-        />
-    );
+    if (props.list.length == 0)
+        return (
+            <FlatList
+                data={products}
+                renderItem={ProductView}
+                initialNumToRender={1}
+                // TODO: Fix in production
+                keyExtractor={item => Math.random()}
+                ListFooterComponent={renderFooter}
+                onEndReached={loadMoreItems}
+                onEndReachedThreshold={1}
+                refreshing={refreshing}
+                onRefresh={resetList}
+            />
+        )
+    else
+        return renderItems(props.list);
 
 };
 
