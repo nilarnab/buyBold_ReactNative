@@ -1,11 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Linking } from 'react-native';
 import { WebView } from 'react-native-webview'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const BASE_URL = 'https://desolate-gorge-42271.herokuapp.com/'
+  
 
 export default function PhoneNumber(props) {
+
     const [phoneNumber, setPhoneNumber] = useState('');
     const [authToken, setAuthToken] = useState(null);
     const [authentication, setAuthentication] = useState(1);
+
+    useEffect(() => {
+        
+
+        const fetch = async () => 
+        {
+
+            console.log("session checking")
+        
+            var user_id = await AsyncStorage.getItem('user_phone')
+
+            console.log(user_id)
+
+            if (user_id != null)
+            {
+                console.log('navigating to main page')
+                props.navigation.navigate('Main')
+            }
+            else
+            {
+                console.log("staying in the screen")
+            }
+        }
+
+        fetch()
+        
+    }, [])
 
     // const requestOtp = async (phoneNumberUser) => {
     //     console.log(phoneNumberUser);
@@ -30,34 +63,62 @@ export default function PhoneNumber(props) {
         console.log(response)
         if (response.verdict) {
             // setAuthentication(3)
+            
+            // setting up session
+            console.log('setting up session')
+            console.log('phone_num', phoneNumber)
+            const resp = await fetch(BASE_URL +`userInfo/get_by_phone?phone_num=${phoneNumber}`, {method: 'POST'})
+            var data_raw = await resp.json();
+
+            console.log(data_raw)
+            var user_id = data_raw.user[0]._id
+            var user_email = data_raw.user[0].email
+            var user_phone = phoneNumber
+            
+            console.log(user_id)
+            console.log(user_email)
+            console.log(user_phone)
+
+            await AsyncStorage.setItem('user_id', user_id)
+            await AsyncStorage.setItem('user_email', user_email)
+            await AsyncStorage.setItem('user_phone', user_phone)
+
+            console.log("session is set")
+
+            // navigating to main page
             props.navigation.navigate('Main')
+
+
         }
         else {
             setAuthentication(1)
         }
     }
+
     if (authentication == 2)
         return <WebView source={{ uri: `http://www.buybold.ml/register?token=${authToken}&phone=${phoneNumber}` }}></WebView>
     else if (authentication == 1)
-        return <View style={styles.screen}>
-            <Text style={styles.text}>Enter Phone Number</Text>
-            <TextInput
-                autoFocus
-                style={styles.input}
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                placeholder="10 digit Mobile Number"
-            />
-            <Button title="LogIn" onPress={async () => {
-                if (phoneNumber.length == 10) {
+    return <View style={styles.screen}>
+        <Text style={styles.text}>Enter Phone Number</Text>
+        <TextInput
+            autoFocus
+            style={styles.input}
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            placeholder="10 digit Mobile Number"
+        />
+        <Button title="LogIn" onPress={async () => {
+            if (phoneNumber.length == 10) {
 
-                    await handleAuth(props);
-                }
-                else { alert(phoneNumber + "is not a valid number") }
-            }} />
-            <Text style={{ color: "red", marginTop: 100 }}></Text>
+                await handleAuth(props);
+            }
+            else { alert(phoneNumber + "is not a valid number") }
+        }} />
+        <Text style={{ color: "red", marginTop: 100 }}></Text>
 
-        </View>
+    </View>
+
+        
     else if (authentication === 3) {
         props.navigation.navigate('Main')
     }
