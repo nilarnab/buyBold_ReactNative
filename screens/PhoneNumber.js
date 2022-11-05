@@ -13,10 +13,8 @@ export default function PhoneNumber(props) {
     const [authToken, setAuthToken] = useState(null);
     const [authentication, setAuthentication] = useState(1);
 
-    useEffect(() => {
-        
 
-        const fetch = async () => 
+    const fetch_session = async () => 
         {
 
             console.log("session checking")
@@ -35,18 +33,14 @@ export default function PhoneNumber(props) {
                 console.log("staying in the screen")
             }
         }
+            
 
-        fetch()
+    useEffect(() => {
         
+        console.log("fetching")
+        console.log(props)
+        fetch_session()
     }, [])
-
-    // const requestOtp = async (phoneNumberUser) => {
-    //     console.log(phoneNumberUser);
-    //     const resp_raw = await fetch(`https://desolate-gorge-42271.herokuapp.com/phoneVerify/reset_otp?phone_num=+91${phoneNumberUser}`, { method: 'GET' })
-    //     var resp = resp_raw.json()
-    //     console.log("response")
-    //     console.log(resp)
-    // }
 
     const handleAuth = async (props) => {
         console.log("waiting for auth");
@@ -98,6 +92,8 @@ export default function PhoneNumber(props) {
     if (authentication == 2)
         return <WebView source={{ uri: `http://www.buybold.ml/register?token=${authToken}&phone=${phoneNumber}` }}></WebView>
     else if (authentication == 1)
+    {
+
     return <View style={styles.screen}>
         <Text style={styles.text}>Enter Phone Number</Text>
         <TextInput
@@ -117,7 +113,7 @@ export default function PhoneNumber(props) {
         <Text style={{ color: "red", marginTop: 100 }}></Text>
 
     </View>
-
+    }
         
     else if (authentication === 3) {
         props.navigation.navigate('Main')

@@ -37,9 +37,6 @@ export const CartView = (prop) => {
     forceUpdate();
   }
 
-
-  
-
     const renderItem = ({ item }) => {
       console.log("prerender condition")
       console.log(item)

@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Video } from 'expo-av';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import { navigate } from "../RootNavigator";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function DashVideo() {
     return (
@@ -20,13 +21,15 @@ function DashVideo() {
     );
 }
 
-const userId = "630dc78ee20ed11eea7fb99f"
+// const userId = "630dc78ee20ed11eea7fb99f"
 const BASE_URL = 'https://desolate-gorge-42271.herokuapp.com/'
 
 function AddToCartButton({ productID }) {
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [cartID, setCartID] = useState(null);
+    const [userId, setUserId] = useState('630dc78ee20ed11eea7fb99f')
+
 
     const fetchCart = async () => {
         setLoading(true);
@@ -50,8 +53,21 @@ function AddToCartButton({ productID }) {
     // useEffect does not support async functions directly
     useEffect(() => { fetchCart(); }, [])
 
+
+    const fetch_session = async () => {
+
+        console.log("fetching user id")
+        var user_id_temp = await AsyncStorage.getItem('user_id')
+
+        setUserId(user_id_temp)
+        console.log("user id")
+        console.log(userId)
+    }
+
     const addProduct = async () => {
         setLoading(true);
+        await fetch_session()
+
         console.log("Adding product", productID);
         const resp = await fetch(BASE_URL + `handleCartOps/insert?user_id=${userId}&prod_id=${productID}&qnt=1`, { method: 'POST' })
         const data = await resp.json();
@@ -62,6 +78,9 @@ function AddToCartButton({ productID }) {
 
     const modifyCount = async (newCount) => {
         setLoading(true);
+
+        await fetch_session()
+
         const resp = await fetch(BASE_URL + `handleCartOps/alter?cart_id=${cartID}&qnt_new=${newCount}`, { method: 'POST' })
         console.log("response")
         console.log(resp.json())
