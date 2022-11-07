@@ -9,7 +9,7 @@ import VerifyCode from './screens/VerifyCode'
 import Map from './screens/Map';
 import MainPage from './screens/MainPage';
 import ProductSpecific from './screens/ProductSpecific';
-import Payment from './payment';
+import Payment from './screens/payment';
 
 import { navigationRef } from './RootNavigator';
 

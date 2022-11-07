@@ -5,7 +5,8 @@ import { Video } from 'expo-av';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import { navigate } from "../RootNavigator";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { WebView } from 'react-native-webview'
+import Payment from './payment';
 function DashVideo() {
     return (
         <Video
@@ -60,10 +61,11 @@ function AddToCartButton({ productID }) {
         var user_id_temp = await AsyncStorage.getItem('user_id')
 
         setUserId(user_id_temp)
-        console.log("user id")
-        console.log(userId)
+        // console.log("user id")
+        // console.log(userId)
+        
     }
-
+   
     const addProduct = async () => {
         setLoading(true);
         await fetch_session()
@@ -109,14 +111,36 @@ function AddToCartButton({ productID }) {
         )
 }
 
+
+    
+      
+   
+   
 export default function ProductSpecific({ route }) {
     const { item } = route.params;
-    const makepay=()=>{
-    
-        navigate("Pay", { item });
-       
-    
+    const fetch_session_phone = async () => 
+{
+
+  
+
+    var phoneNo = await AsyncStorage.getItem('user_phone')
+     const items ={
+        phone:phoneNo,
+     }
+    console.log(items.phone)
+
+    if (phoneNo == null)
+    {
+        console.log('navigating to main page')
+        props.navigation.navigate('Main')
     }
+    else
+            navigate("Pay", { items });
+       
+          
+        
+};
+    
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ backgroundColor: "#d1e0e0" }}>
@@ -131,7 +155,7 @@ export default function ProductSpecific({ route }) {
                         <Text style={styles.text}>₹{item.price}</Text>
                     </View>
                     <Text style={styles.description}>{item.description}</Text>
-                    <Button icon="cart" mode="contained" style={{ backgroundColor: "blue" }} onPress={makepay}>
+                    <Button icon="cart" mode="contained" style={{ backgroundColor: "blue" }} onPress={fetch_session_phone}>
                 Buy Now
             </Button>
                 </View>
@@ -141,6 +165,7 @@ export default function ProductSpecific({ route }) {
             </View>
         </View>
     );
+    
 }
 
 const styles = StyleSheet.create({
